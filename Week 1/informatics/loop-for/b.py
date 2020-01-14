@@ -1,0 +1,14 @@
+
+
+def main():
+    a, b, c, d = int(input()), int(input()), int(input()), int(input())
+
+    for i in range(a, b + 1):
+        if i % d == c:
+            print(i, end=' ')
+
+    print()
+
+
+if __name__ == '__main__':
+    main()
