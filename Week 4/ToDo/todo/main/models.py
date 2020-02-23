@@ -18,6 +18,10 @@ class ToDoList(models.Model):
 
     objects = ToDoListManager()
 
+    class Meta:
+        verbose_name = 'Todo list'
+        verbose_name_plural = 'Todo lists'
+
     def __str__(self):
         return f'{self.name} todo list'
 
@@ -31,6 +35,10 @@ class ToDo(models.Model):
     notes = models.CharField(max_length=255, default='', blank=True)
 
     objects = ToDoListManager()
+
+    class Meta:
+        verbose_name = 'Todo item'
+        verbose_name_plural = 'Todo items'
 
     def __str__(self):
         return f'{self.name}, in {self.list}'
