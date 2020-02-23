@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'rest_framework_jwt',
 
     'todo.auth_',
+    'todo.main',
 ]
 
 AUTH_USER_MODEL = 'auth_.MyUser'
