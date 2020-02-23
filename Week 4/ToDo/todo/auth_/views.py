@@ -1,19 +1,17 @@
-import json
-
-from django.http import JsonResponse
-from django.views.decorators.csrf import csrf_exempt
+from rest_framework import generics
+from rest_framework.permissions import AllowAny
 
 from todo.auth_.models import MyUser
+from todo.auth_.serializers import UserSerializer
 
 
-@csrf_exempt
-def register(request):
-    body = json.loads(request.body.decode('utf-8'))
-    username = body.get('username')
-    password = body.get('password')
+class UserCreateView(generics.CreateAPIView):
 
-    user = MyUser.objects.create_user(username=username)
-    user.set_password(password)
-    user.save()
+    permission_classes = (AllowAny, )
+    authentication_classes = ()
 
-    return JsonResponse({'message': f'user with username {user.username} created'}, status=200)
+    def get_queryset(self):
+        return MyUser.objects.all()
+
+    def get_serializer_class(self):
+        return UserSerializer
