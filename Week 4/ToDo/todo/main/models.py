@@ -8,7 +8,6 @@ from todo.auth_.models import MyUser
 class ToDoListManager(models.Manager):
 
     def for_user(self, user):
-        print(user)
         return self.filter(owner=user)
 
 
