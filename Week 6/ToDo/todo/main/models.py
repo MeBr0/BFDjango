@@ -1,6 +1,5 @@
-from datetime import datetime
-
 from django.db import models
+from django.utils import timezone
 
 from todo.auth_.models import MyUser
 
@@ -27,7 +26,7 @@ class ToDoList(models.Model):
 
 class ToDo(models.Model):
     name = models.CharField(max_length=50)
-    created_at = models.DateTimeField(default=datetime.now)
+    created_at = models.DateTimeField(default=timezone.now)
     due_on = models.DateTimeField(null=True, default=None)
     is_done = models.BooleanField(default=False)
     list = models.ForeignKey(ToDoList, on_delete=models.CASCADE, related_name='tasks')
