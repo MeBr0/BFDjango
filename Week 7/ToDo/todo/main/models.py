@@ -4,14 +4,26 @@ from django.utils import timezone
 from todo.auth_.models import MyUser
 
 
+# It is very stupid thing, but example for model inheritance and abstract methods
+class NameableModel(models.Model):
+
+    name = models.CharField(max_length=50)
+
+    class Meta:
+        abstract = True
+
+    @property
+    def short_name(self):
+        raise NotImplementedError()
+
+
 class ToDoListManager(models.Manager):
 
     def for_user(self, user):
         return self.filter(owner=user)
 
 
-class ToDoList(models.Model):
-    name = models.CharField(max_length=40)
+class ToDoList(NameableModel):
     owner = models.ForeignKey(MyUser, on_delete=models.CASCADE)
 
     objects = ToDoListManager()
@@ -23,9 +35,16 @@ class ToDoList(models.Model):
     def __str__(self):
         return f'{self.name} todo list'
 
+    @property
+    def short_name(self):
+        return self.name[:10]
 
-class ToDo(models.Model):
-    name = models.CharField(max_length=50)
+    @classmethod
+    def count(cls):
+        return cls.objects.count()
+
+
+class ToDo(NameableModel):
     created_at = models.DateTimeField(default=timezone.now)
     due_on = models.DateTimeField(null=True, default=None)
     is_done = models.BooleanField(default=False)
@@ -40,3 +59,18 @@ class ToDo(models.Model):
 
     def __str__(self):
         return f'{self.name}, in {self.list}'
+
+    @property
+    def short_name(self):
+        return self.name[:10]
+
+    @property
+    def string_is_done(self):
+        if self.is_done:
+            return 'done'
+
+        return 'not done'
+
+    @classmethod
+    def count(cls):
+        return cls.objects.count()
