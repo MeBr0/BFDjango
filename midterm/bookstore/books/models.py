@@ -2,6 +2,7 @@ from django.db import models
 from django.utils import timezone
 
 
+# Abstract base for both books and journal
 class BookJournalBase(models.Model):
     name = models.CharField(max_length=50)
     price = models.IntegerField()

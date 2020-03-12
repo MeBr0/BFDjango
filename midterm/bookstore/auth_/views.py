@@ -5,9 +5,9 @@ from bookstore.auth_.models import MyUser
 from bookstore.auth_.serializers import UserSerializer
 
 
+# ViewSet for user creation
 class UserCreateViewSet(mixins.CreateModelMixin, viewsets.GenericViewSet):
-
-    permission_classes = AllowAny,
 
     queryset = MyUser.objects.all()
     serializer_class = UserSerializer
+    permission_classes = AllowAny,

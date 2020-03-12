@@ -5,6 +5,7 @@ from django.core.mail import send_mail
 from django.db import models
 
 
+# Copy of AbstractUser + field is_super_admin
 class MyAbstractUser(AbstractBaseUser, PermissionsMixin):
     username_validator = UnicodeUsernameValidator()
 
@@ -28,8 +29,8 @@ class MyAbstractUser(AbstractBaseUser, PermissionsMixin):
         'active',
         default=True,
         help_text=
-            'Designates whether this user should be treated as active. '
-            'Unselect this instead of deleting accounts.'
+        'Designates whether this user should be treated as active. '
+        'Unselect this instead of deleting accounts.'
         ,
     )
 
@@ -61,10 +62,12 @@ class MyAbstractUser(AbstractBaseUser, PermissionsMixin):
         return not self.is_super_admin
 
 
+# Copy of User
 class MyUser(MyAbstractUser):
     pass
 
 
+# User profile with one-to-one relation
 class UserProfile(models.Model):
     id = models.OneToOneField(MyUser, on_delete=models.CASCADE, primary_key=True)
     phone = models.CharField(max_length=10)

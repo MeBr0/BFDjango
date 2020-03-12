@@ -8,7 +8,7 @@ def negative_number_validator(value):
         raise serializers.ValidationError('Number of pages cannot be negative')
 
 
-# not necessary (?)
+# Indeed not necessary because Django's native validator
 def wrong_type_validator(value):
     result = False
 

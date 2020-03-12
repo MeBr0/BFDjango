@@ -3,6 +3,7 @@ from rest_framework import serializers
 from bookstore.auth_.models import MyUser
 
 
+# Default user serializer with create method
 class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
