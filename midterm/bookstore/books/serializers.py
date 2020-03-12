@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from BookStore.books.models import Book, Journal
+from bookstore.books.models import Book, Journal
 
 
 def negative_number_validator(value):

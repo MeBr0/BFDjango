@@ -1,8 +1,8 @@
 from rest_framework import viewsets, permissions
 from rest_framework.permissions import IsAuthenticated
 
-from BookStore.books.models import Book, Journal
-from BookStore.books.serializers import BookSerializer, JournalSerializer
+from bookstore.books.models import Book, Journal
+from bookstore.books.serializers import BookSerializer, JournalSerializer
 
 
 class BookViewSet(viewsets.ModelViewSet):

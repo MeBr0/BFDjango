@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from BookStore.auth_.models import MyUser
+from bookstore.auth_.models import MyUser
 
 
 class UserSerializer(serializers.ModelSerializer):
