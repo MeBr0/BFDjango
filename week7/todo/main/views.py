@@ -1,13 +1,14 @@
-from rest_framework import generics
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.viewsets import ModelViewSet
+from rest_framework_extensions.mixins import NestedViewSetMixin
 
 from todo.main.models import ToDo, ToDoList
 from todo.main.serializers import ToDoSerializer, ToDoListSerializer
 
 
-class ToDoListsView(generics.ListCreateAPIView):
+class ListViewSet(NestedViewSetMixin, ModelViewSet):
 
-    permission_classes = (IsAuthenticated, )
+    permission_classes = (IsAuthenticated,)
 
     def get_queryset(self):
         return ToDoList.objects.for_user(self.request.user)
@@ -20,38 +21,16 @@ class ToDoListsView(generics.ListCreateAPIView):
         serializer.save(owner=user)
 
 
-class ToDoListView(generics.RetrieveUpdateDestroyAPIView):
+class TaskViewSet(NestedViewSetMixin, ModelViewSet):
 
-    permission_classes = (IsAuthenticated, )
-
-    def get_queryset(self):
-        return ToDoList.objects.for_user(self.request.user).filter(id=self.kwargs.get('pk'))
-
-    def get_serializer_class(self):
-        return ToDoListSerializer
-
-
-class ToDosView(generics.ListCreateAPIView):
-
-    permission_classes = (IsAuthenticated, )
+    permission_classes = (IsAuthenticated,)
 
     def get_queryset(self):
-        return ToDo.objects.filter(list=self.kwargs.get('pk'))
+        return ToDo.objects.filter(list=self.kwargs.get('parent_lookup_list'))
 
     def get_serializer_class(self):
         return ToDoSerializer
 
     def perform_create(self, serializer):
-        list_id = self.kwargs.get('pk')
+        list_id = self.kwargs.get('parent_lookup_list')
         serializer.save(list=ToDoList.objects.get(id=list_id))
-
-
-class ToDoView(generics.RetrieveUpdateDestroyAPIView):
-
-    permission_classes = (IsAuthenticated, )
-
-    def get_queryset(self):
-        return ToDo.objects.filter(id=self.kwargs.get('pk'), list=self.kwargs.get('pk2'))
-
-    def get_serializer_class(self):
-        return ToDoSerializer

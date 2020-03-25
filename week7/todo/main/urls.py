@@ -1,10 +1,12 @@
-from django.urls import path
+from rest_framework_extensions.routers import ExtendedSimpleRouter
 
-from .views import ToDoListsView, ToDoListView, ToDosView, ToDoView
+from .views import ListViewSet, TaskViewSet
 
-urlpatterns = [
-    path('', ToDoListsView.as_view()),
-    path('<int:pk>/', ToDoListView.as_view()),
-    path('<int:pk>/todo/', ToDosView.as_view()),
-    path('<int:pk2>/todo/<int:pk>/', ToDoView.as_view()),
-]
+router = ExtendedSimpleRouter()
+
+(
+    router.register(r'', ListViewSet, basename='list')
+        .register(r'todo', TaskViewSet, basename='list-task', parents_query_lookups=['list'])
+)
+
+urlpatterns = router.urls
