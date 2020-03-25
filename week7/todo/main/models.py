@@ -45,7 +45,7 @@ class ToDoList(NameableModel):
 
 
 class ToDo(NameableModel):
-    created_at = models.DateTimeField(default=timezone.now)
+    created_at = models.DateTimeField(auto_now=True)
     due_on = models.DateTimeField(null=True, default=None)
     is_done = models.BooleanField(default=False)
     list = models.ForeignKey(ToDoList, on_delete=models.CASCADE, related_name='tasks')

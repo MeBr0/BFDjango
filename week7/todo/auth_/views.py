@@ -1,11 +1,12 @@
-from rest_framework import generics
+from rest_framework.viewsets import GenericViewSet
+from rest_framework.mixins import CreateModelMixin
 from rest_framework.permissions import AllowAny
 
 from todo.auth_.models import MyUser
 from todo.auth_.serializers import UserSerializer
 
 
-class UserCreateView(generics.CreateAPIView):
+class UserCreateViewSet(GenericViewSet, CreateModelMixin):
 
     permission_classes = (AllowAny, )
     authentication_classes = ()
