@@ -1,5 +1,4 @@
 from django.db import models
-from django.utils import timezone
 
 from todo.auth_.models import MyUser
 
@@ -24,6 +23,7 @@ class ToDoListManager(models.Manager):
 
 
 class ToDoList(NameableModel):
+
     owner = models.ForeignKey(MyUser, on_delete=models.CASCADE)
 
     objects = ToDoListManager()
@@ -45,11 +45,13 @@ class ToDoList(NameableModel):
 
 
 class ToDo(NameableModel):
+
     created_at = models.DateTimeField(auto_now=True)
     due_on = models.DateTimeField(null=True, default=None)
     is_done = models.BooleanField(default=False)
     list = models.ForeignKey(ToDoList, on_delete=models.CASCADE, related_name='tasks')
     notes = models.CharField(max_length=255, default='', blank=True)
+    attachment = models.FileField(upload_to='attachments', null=True, blank=True)
 
     objects = ToDoListManager()
 
